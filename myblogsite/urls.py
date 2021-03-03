@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,3 +25,9 @@ urlpatterns = [
     url(r'^accounts/login/$',auth_views.LoginView.as_view(),name='auth_login'),
     url(r'^accounts/logout/$',auth_views.LogoutView.as_view(),name='auth_logout',kwargs={'next_page':'/'})
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/',include(debug_toolbar.urls))
+    ] + urlpatterns
